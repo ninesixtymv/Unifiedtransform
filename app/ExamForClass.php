@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Model;
 
 class ExamForClass extends Model
 {
@@ -10,5 +10,9 @@ class ExamForClass extends Model
 
     public function classes(){
         return $this->hasMany('App\Myclass');
+    }
+
+    public function exam(){
+        return $this->belongsTo('App\Exam');
     }
 }

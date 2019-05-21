@@ -15,15 +15,16 @@ class SectionController extends Controller
      */
      public function index()
      {
-      $classes = \App\Myclass::where('school_id',\Auth::user()->school->id)
+      $classes = \App\Myclass::bySchool(\Auth::user()->school->id)
                   ->get();
-      $classeIds = \App\Myclass::where('school_id',\Auth::user()->school->id)
+      $classeIds = \App\Myclass::bySchool(\Auth::user()->school->id)
                     ->pluck('id')
                     ->toArray();
       $sections = \App\Section::whereIn('class_id',$classeIds)
                   ->orderBy('section_number')
                   ->get();
       $exams = \App\ExamForClass::whereIn('class_id',$classeIds)
+                  ->where('active', 1)
                   ->groupBy('class_id')
                   ->get();
       return view('school.sections',[

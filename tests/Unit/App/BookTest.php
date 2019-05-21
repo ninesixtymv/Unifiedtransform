@@ -3,6 +3,7 @@
 namespace Tests\Unit\App;
 
 use App\Book;
+use App\School;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,7 +16,7 @@ class BookTest extends TestCase
 
     public function setUp() {
         parent::setUp();
-        $this->book = factory(Book::class)->create();
+        $this->book = create(Book::class);
     }
 
     /** @test */
@@ -36,5 +37,16 @@ class BookTest extends TestCase
     /** @test */
     public function a_book_belongs_to_user() {
         $this->assertInstanceOf('App\User', $this->book->user);
+    }
+
+    /** @test */
+    public function the_books_are_filter_by_school() {
+        $school = create(School::class);
+        $books  = create(Book::class, ['school_id' => $school->id], 2);
+
+        $other_school = create(School::class);
+        $other_books  = create(Book::class, ['school_id' => $other_school->id], 4);
+
+        $this->assertEquals(Book::bySchool($school->id)->count(), $books->count());
     }
 }

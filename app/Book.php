@@ -2,35 +2,28 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Model;
 
 class Book extends Model
 {
-    protected $table = "books";
-    
-    public function school(){
+    protected $fillable = [
+        'title', 'book_code', 'author', 'quantity', 'rackNo', 'rowNo', 'type',
+        'about', 'price', 'img_path', 'class_id', 'school_id', 'user_id'
+    ];
+
+    public function school() {
         return $this->belongsTo('App\School');
     }
-    /**
-     * Get the class record associated with the user.
-    */
-    public function class()
-    {
+
+    public function class() {
         return $this->belongsTo('App\Myclass');
     }
-    /**
-     * Get the student record associated with the user.
-    */
-    public function user()
-    {
+
+    public function user() {
         return $this->belongsTo('App\User');
     }
 
-    /**
-     * Get the student record associated with the user.
-    */
-    public function issuedbook()
-    {
+    public function issuedbook() {
         return $this->hasMany('App\Issuedbook', 'book_id');
     }
 }
