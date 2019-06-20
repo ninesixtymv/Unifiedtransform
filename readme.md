@@ -45,8 +45,6 @@ This software has following features:
    * Students can pay from their accounts.
    * Student can view payment receipts (history)
    * View Screenshot below
-* `Export/Import` Users (Students, Teachers) from/to **Excel**
-   * [Laravel Excel](https://github.com/maatwebsite/Laravel-Excel) package is used.
 * Attendance
 * Mark
 * Registration
@@ -56,6 +54,18 @@ This software has following features:
 * Grade
 * Accounts
 * Messaging (uses CKEditor 5)
+* `Export/Import` Users (Students, Teachers) from/to **Excel**
+   * [Laravel Excel](https://github.com/maatwebsite/Laravel-Excel) package is used.
+   * **Important:** Single sheet supported in an Excel file. So delete any extra sheet in an Excel file.
+   * Following excel column  names supported for both Teachers and Students:
+
+      * `name, email, password, address, about, phone_number, blood_group, nationality, gender`.
+   * Other columns:
+
+      * For Teachers: `department`, (`class, section`) if assigned as class teacher.
+      * For Students: `class, section, session, version, group, birthday, religion, father_name, father_phone_number, father_national_id, father_occupation, father_designation, father_annual_income, mother_name, mother_phone_number, mother_national_id, mother_occupation, mother_designation, mother_annual_income`
+   * For any number(e.g: phone_number) starts with zero, put (') before zero.
+
 
 ## Framework used
 
@@ -225,6 +235,35 @@ DB_PASSWORD=secret
 * Important: A `master` CANNOT manage a school's data!
 * Login as `admin` at `example.com/login`
 * Now add data to the school as required.
+
+## Basic Steps by Serial
+
+* Create Classes
+* Create Sections
+* Create Exam
+* Add Students
+* Add Teachers
+* Add Courses
+* Then teacher can take attendance, give marks
+
+## Manage Exam (In exam manage page) by Admin
+
+1. Check Notice published checkbox for an Exam after uploading Exam Notice.
+2. Check Result published checkbox for an Exam after all teachers updated their courses' marks.
+
+   * Checking result as published sets the Exam as completed.
+3. Exam is set as Active by default while created. You can deactivate the exam by checking related checkbox.
+
+## Manage GPA and Grade
+
+1. Admin adds GPAs for respective mark ranges.
+2. For giving marks, Teacher clicks on Submit Grade button and do the following:
+
+   1. Select a GPA by name from dropdown
+   2. Configure Class Test, Quiz, ...etc. count, percentage (Optional)
+   3. Give marks
+   4. To get Grade of students of a course for given marks, Teacher clicks the Get Total Marks button.
+      (Usually this is done at the end of the semester)
 
 ## Good to know
 
