@@ -1,4 +1,8 @@
 <?php
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -9,28 +13,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-//in controller :- return (new ResultOutput())->output($data);
-/*
-class ResultOutput()
-{
-    private $type;
-    public __construct(Request $request) {
-        $this->output = 'view';
-        if ($request->wantsJson()) {
-            $this->output = 'json';
-        }
-    }
-    public method output($data) {
-        if ($this->type =='view') {
-            // return the view with data
-        } else {
-            // return the json output
-        }
-    }
-}
-*/
 
-\Debugbar::disable();
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,6 +23,7 @@ Auth::routes();
 
 Route::middleware(['auth', 'master'])->group(function () {
     Route::get('/masters', 'MasterController@index')->name('masters.index');
+    Route::resource('/schools', 'SchoolController')->only(['index', 'edit', 'store', 'update']);
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -78,9 +62,10 @@ Route::middleware(['auth','accountant'])->prefix('fees')->name('fees.')->group(f
 });
 
 Route::middleware(['auth','admin'])->group(function (){
-  Route::get('gpa/create-gpa', 'GradesystemController@create');
-  Route::post('create-gpa', 'GradesystemController@store');
-  Route::post('gpa/delete', 'GradesystemController@destroy');
+    Route::get('/settings', 'SettingController@index')->name('settings.index');
+    Route::get('gpa/create-gpa', 'GradesystemController@create');
+    Route::post('create-gpa', 'GradesystemController@store');
+    Route::post('gpa/delete', 'GradesystemController@destroy');
 });
 
 Route::middleware(['auth','teacher'])->group(function (){
@@ -177,8 +162,6 @@ Route::middleware(['auth','accountant'])->prefix('accounts')->name('accounts.')-
   Route::get('delete-expense/{id}','AccountController@deleteExpense');
 });
 
-Route::get('create-school', 'SchoolController@index')->middleware('master.admin');
-
 Route::middleware(['auth','master'])->group(function (){
   Route::get('register/admin/{id}/{code}', function($id, $code){
       session([
@@ -191,7 +174,6 @@ Route::middleware(['auth','master'])->group(function (){
   Route::post('register/admin', 'UserController@storeAdmin');
   Route::get('master/activate-admin/{id}','UserController@activateAdmin');
   Route::get('master/deactivate-admin/{id}','UserController@deactivateAdmin');
-  Route::post('create-school', 'SchoolController@store');
   Route::get('school/admin-list/{school_id}','SchoolController@show');
 });
 
@@ -203,6 +185,7 @@ Route::middleware(['auth','admin'])->group(function (){
     Route::get('promote-students/{section_id}','UserController@promoteSectionStudents');
     Route::post('promote-students','UserController@promoteSectionStudentsPost');
     Route::post('theme','SchoolController@changeTheme');
+	Route::post('set-ignore-sessions','SchoolController@setIgnoreSessions');
   });
 
   Route::prefix('register')->name('register.')->group(function (){
@@ -234,12 +217,6 @@ Route::middleware(['auth','admin'])->group(function (){
   Route::get('edit/course/{id}','CourseController@edit');
   Route::post('edit/course/{id}','CourseController@updateNameAndTime');
 });
-
-Route::middleware(['auth', 'master'])->group(function () {
-  Route::get('school/{school_id}','SchoolController@edit');
-  Route::post('school/{school_id}','SchoolController@edit');
-});
-
 
 //use PDF;
 Route::middleware(['auth','master.admin'])->group(function (){

@@ -107,11 +107,11 @@ class UserController extends Controller
      * @param $section_id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function promoteSectionStudents($section_id)
+    public function promoteSectionStudents(Request $request, $section_id)
     {
         if($this->userService->hasSectionId($section_id))
             return $this->userService->promoteSectionStudentsView(
-                $this->userService->getSectionStudentsWithStudentInfo($section_id),
+                $this->userService->getSectionStudentsWithStudentInfo($request, $section_id),
                 Myclass::with('sections')->bySchool(\Auth::user()->school_id)->get(),
                 $section_id
             );
@@ -147,10 +147,10 @@ class UserController extends Controller
               'password' => Hash::make($request->new_password),
             ])->save();
 
-            return back()->with('status', 'Saved');
+            return back()->with('status', __('Saved'));
         }
 
-        return back()->with('error-status', 'Passwords do not match.');
+        return back()->with('error-status', __('Passwords do not match.'));
     }
 
     /**
@@ -204,7 +204,7 @@ class UserController extends Controller
             }
         });
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
@@ -223,7 +223,7 @@ class UserController extends Controller
             Log::info('Email failed to send to this address: '.$tb->email);
         }
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
@@ -241,7 +241,7 @@ class UserController extends Controller
             Log::info('Email failed to send to this address: '.$tb->email);
         }
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
@@ -259,7 +259,7 @@ class UserController extends Controller
             Log::info('Email failed to send to this address: '.$tb->email);
         }
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
@@ -277,7 +277,7 @@ class UserController extends Controller
             Log::info('Email failed to send to this address: '.$tb->email);
         }
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
@@ -332,6 +332,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request)
     {
+		 
         DB::transaction(function () use ($request) {
             $tb = $this->user->find($request->user_id);
             $tb->name = $request->name;
@@ -340,7 +341,9 @@ class UserController extends Controller
             $tb->phone_number = $request->phone_number;
             $tb->address = (!empty($request->address)) ? $request->address : '';
             $tb->about = (!empty($request->about)) ? $request->about : '';
-            $tb->pic_path = (!empty($request->pic_path)) ? $request->pic_path : '';
+			if (!empty($request->pic_path)) {
+				$tb->pic_path = $request->pic_path;
+			}
             if ($request->user_role == 'teacher') {
                 $tb->department_id = $request->department_id;
                 $tb->section_id = $request->class_teacher_section_id;
@@ -365,7 +368,7 @@ class UserController extends Controller
             }
         });
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
@@ -385,7 +388,7 @@ class UserController extends Controller
 
         $admin->save();
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**
@@ -405,7 +408,7 @@ class UserController extends Controller
 
         $admin->save();
 
-        return back()->with('status', 'Saved');
+        return back()->with('status', __('Saved'));
     }
 
     /**

@@ -34,7 +34,7 @@
                         <input type="hidden" name="user_id" value="{{$user->id}}">
                         <input type="hidden" name="user_role" value="{{$user->role}}">
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">@lang('Full Name')</label>
+                            <label for="name" class="col-md-4 control-label">* @lang('Full Name')</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control" name="name" value="{{ $user->name }}"
@@ -64,7 +64,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('phone_number') ? ' has-error' : '' }}">
-                            <label for="phone_number" class="col-md-4 control-label">@lang('Phone Number')</label>
+                            <label for="phone_number" class="col-md-4 control-label">* @lang('Phone Number')</label>
 
                             <div class="col-md-6">
                                 <input id="phone_number" type="text" class="form-control" name="phone_number"
@@ -86,7 +86,10 @@
                                 <select id="department" class="form-control" name="department_id">
                                     @if (count($departments)) > 0)
                                     @foreach ($departments as $d)
-                                    <option value="{{$d->id}}">{{$d->department_name}}</option>
+                                    <option value="{{$d->id}}" @if ($d->id == old('department_id', $user->department_id))
+											selected="selected"
+										@endif
+										>{{$d->department_name}}</option>
                                     @endforeach
                                     @endif
                                 </select>
@@ -103,11 +106,11 @@
 
                             <div class="col-md-6">
                                 <select id="class_teacher" class="form-control" name="class_teacher_section_id">
-                                    <option selected="selected" value="{{$user->section->id}}">@lang('Section'):
-                                        {{$user->section->section_number}} @lang('Class'):
-                                        {{$user->section->class->class_number}}</option>
                                     @foreach ($sections as $section)
-                                    <option value="{{$section->id}}">@lang('Section'): {{$section->section_number}} @lang('Class'):
+                                    <option value="{{$section->id}}" @if ($section->id == old('class_teacher_section_id', $user->section_id))
+											selected="selected"
+										@endif
+										>@lang('Section'): {{$section->section_number}} @lang('Class'):
                                         {{$section->class->class_number}}</option>
                                     @endforeach
                                 </select>
@@ -153,7 +156,7 @@
                         @if($user->role == 'student')
 
                         <div class="form-group{{ $errors->has('birthday') ? ' has-error' : '' }}">
-                            <label for="birthday" class="col-md-4 control-label">@lang('Birthday')</label>
+                            <label for="birthday" class="col-md-4 control-label">* @lang('Birthday')</label>
 
                             <div class="col-md-6">
                                 <input id="birthday" type="text" class="form-control" name="birthday" required>
@@ -166,7 +169,7 @@
                             </div>
                         </div>
                         <div class="form-group{{ $errors->has('session') ? ' has-error' : '' }}">
-                            <label for="session" class="col-md-4 control-label">@lang('Session')</label>
+                            <label for="session" class="col-md-4 control-label">* @lang('Session')</label>
 
                             <div class="col-md-6">
                                 <input id="session" type="text" class="form-control" name="session" required>
@@ -185,7 +188,7 @@
                             <div class="col-md-6">
                                 <input id="group" type="text" class="form-control" name="group"
                                     value="{{ $user->studentInfo['group'] }}"
-                                    placeholder="Science, Arts, Commerce,etc.">
+                                    placeholder="@lang('Science, Arts, Commerce,etc.')">
 
                                 @if ($errors->has('group'))
                                 <span class="help-block">
@@ -196,7 +199,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('father_name') ? ' has-error' : '' }}">
-                            <label for="father_name" class="col-md-4 control-label">@lang('Father\'s Name')</label>
+                            <label for="father_name" class="col-md-4 control-label">* @lang('Father\'s Name')</label>
 
                             <div class="col-md-6">
                                 <input id="father_name" type="text" class="form-control" name="father_name"
@@ -287,7 +290,7 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('mother_name') ? ' has-error' : '' }}">
-                            <label for="mother_name" class="col-md-4 control-label">@lang('Mother\'s Name')</label>
+                            <label for="mother_name" class="col-md-4 control-label">* @lang('Mother\'s Name')</label>
 
                             <div class="col-md-6">
                                 <input id="mother_name" type="text" class="form-control" name="mother_name"
@@ -382,7 +385,7 @@
                             <div class="col-md-6 col-md-offset-4">
                                 <a href="javascript:history.back()" class="btn btn-danger" style="margin-right: 2%;"
                                     role="button">@lang('Cancel')</a>
-                                <input type="submit" role="button" class="btn btn-success" value="Save">
+                                <input type="submit" role="button" class="btn btn-success" value="@lang('Save')">
                             </div>
                         </div>
                     </form>

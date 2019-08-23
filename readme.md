@@ -3,6 +3,7 @@
 [![Linux](https://img.shields.io/travis/changeweb/Unifiedtransform/master.svg?label=linux)](https://travis-ci.org/changeweb/Unifiedtransform)
 [![Code Climate](https://codeclimate.com/github/changeweb/Unifiedtransform/badges/gpa.svg)](https://codeclimate.com/github/changeweb/Unifiedtransform)
 [![MadeWithLaravel.com shield](https://madewithlaravel.com/storage/repo-shields/1362-shield.svg)](https://madewithlaravel.com/p/unifiedtransform/shield-link)
+[![Join the chat at https://gitter.im/Unifiedtransform](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Unifiedtransform?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 We like to challenge the quality of what we build to make it better. To do so, we try to make the product intuitive, beautiful, and user friendly. Innovation and hard work help to fulfill these requirements. I believe in order to innovate we need to think differently. A few months ago I discovered there was no open source free school management software that met my quality standards. I happen to know a bit of programming so I decided to make one. I also believe that working with more people can push the standard higher than working alone. So I decided to make it open source and free.
 
@@ -27,7 +28,8 @@ Thus you permit the user of this software to use your contribution under the ter
 ## Testing
 
 - We want testable softwares. Most parts of the software are covered by tests. You also can contribute by writing test case!
-- To run Feature and Unit Tests use `./vendor/bin/phpunit` and to run Browser Tests set `APP_URL` environment variable in your `.env` file. This value should match the URL you use to access your application in a browser. Then run `php artisan dusk`.
+- To run Feature and Unit Tests use `./vendor/bin/phpunit`.
+- To run Browser Tests copy `.env.dusk.example` to `.env.dusk.local` and set `APP_KEY` with same token to environment variable in your `.env` file and run `php artisan serve --env=dusk.local` for execute the server then run `php artisan dusk`.
 
 ## License
 
@@ -91,6 +93,8 @@ This software has following features:
 
 ## How to Start
 ### Using a Container:
+
+**Anyone having trouble related to `mysql-client`, PHP 7.3 needs mariadb instead of mysql.** See issue [#192](https://github.com/changeweb/Unifiedtransform/issues/192)
 
 **[Docker](https://www.docker.com/)** is now supported.
 
